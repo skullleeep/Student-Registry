@@ -21,7 +21,9 @@ jobs:
       with:
         node-version: 20
         cache: 'npm'
-    - name: Install Program Dependencies
+    - name: Install App Dependencies
       run: npm install
+    - name: Run the App
+      run: npm run start & #'&' is used for background mode
     - name: Run Tests On App
       run: npm test
