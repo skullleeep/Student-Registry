@@ -10,24 +10,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build_test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Clone the Github Repository on the machine
-      uses: actions/checkout@v4
-    - name: Use Node.js v20
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: 'npm'
-    - name: Install App Dependencies
-      run: npm install
-    - name: Run the App
-      run: npm run start & #'&' is used for background mode
-    - name: Run Tests On App
-      run: npm test
-
   security_test:
     runs-on: ubuntu-latest
 
@@ -43,3 +25,22 @@ jobs:
       run: npm install
     - name: Run Security Test
       run: npm audit
+
+  build_test:
+    runs-on: ubuntu-latest
+    needs: security_test
+
+    steps:
+    - name: Clone the Github Repository on the machine
+      uses: actions/checkout@v4
+    - name: Use Node.js v20
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+    - name: Install App Dependencies
+      run: npm install
+    - name: Run the App
+      run: npm run start & #'&' is used for background mode
+    - name: Run Tests On App
+      run: npm test
